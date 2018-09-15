@@ -4,11 +4,12 @@ This Java package allows to robustly manage properties in your java code.
 
 ## Getting Started
 
-git clone <repouri>
+git clone https://github.com/sirnino/PropertyManager.git
 
 ### Prerequisites
 
 This package can be used in Java 8 projects.
+
 In order to have all the functionalities it's highly recommended to have an instance of Zookeeper Configuration Manager up and running.
 
 
@@ -19,10 +20,11 @@ Run the maven build and then import the produced jar into your project
 
 ## Built With
 * [Maven](https://maven.apache.org/) - Dependency Management
+* [Eclipse] (https://www.eclipse.org/) -  IDE
 
 ## Contributing
 
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests.
+Please read CONTRIBUTING.md for details on the code of conduct, and the process for submitting pull requests.
 
 ## Versioning
 
