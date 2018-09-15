@@ -26,9 +26,9 @@ Anyway I kindly recommended to use the [netflixoss/exhibitor](https://hub.docker
 Run the maven build and then import the produced jar into your project through:
 
     <dependency>
-	    <groupId>it.eng.rspa.utils</groupId>
+	    <groupId>it.asirchia.utils</groupId>
 	    <artifactId>property-manager</artifactId>
-	    <version></version>
+	    <version>1.0.0</version>
     </dependency>
 
 ### Best practices
