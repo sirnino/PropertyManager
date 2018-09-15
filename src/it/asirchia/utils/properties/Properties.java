@@ -9,6 +9,12 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
+/**
+ * Property Manager to retrieve application configuration
+ * 
+ * @author Antonino Sirchia (sirnino)
+ * 
+ */
 public class Properties {
 	
 	//Zookeeper Stuff
@@ -19,10 +25,20 @@ public class Properties {
 	private static Optional<CuratorFramework> zooClient = Optional.empty();
 	
 	//Configuration file stuff
-	private static final String BUNDLE_NAME = "it.eng.rspa.utils.properties.configuration";
+	private static final String BUNDLE_NAME = "it.asirchia.utils.properties.configuration";
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 	
-	
+	/**
+	 * Retrieves the Property with the specified keyword.
+	 * First it searches the properties in the Environment Variables, 
+	 * if no match is found it searches in the Zookeeper Configuration Manager,
+	 * if no match is found yet, it takes the default value in the configuration file.
+	 *  
+	 * @param key - the String that represent the name of the property to retrieve
+	 * @return a java.util.Optional that may contain the value of the retrieved property
+	 * @see java.util.Optional
+	 * 
+	 */
 	public static Optional<String> get(String key) {
 		
 		Optional<String> ret = Optional.ofNullable(System.getenv(key));
