@@ -10,8 +10,6 @@ The retrieval is performed accordingly to the following priority list:
 
 ## Getting Started
 
-    git clone https://github.com/sirnino/PropertyManager.git
-
 ### Prerequisites
 
 This package can be used in Java 8 projects.
@@ -23,13 +21,43 @@ Anyway I kindly recommended to use the [netflixoss/exhibitor](https://hub.docker
 
 ### Installing
 
-Run the maven build and then import the produced jar into your project through:
+The developer who wants to use the library has two choices:
 
-    <dependency>
-	    <groupId>it.asirchia.utils</groupId>
-	    <artifactId>property-manager</artifactId>
-	    <version>1.0.0</version>
-    </dependency>
+#### Compile the code
+
+1) Clone the source code: 
+
+    		git clone https://github.com/sirnino/PropertyManager.git
+
+2) Run the maven build
+
+3) Import the produced jar into your project:
+
+		    <dependency>
+			    <groupId>it.asirchia.utils</groupId>
+			    <artifactId>property-manager</artifactId>
+			    <version>1.0.0</version>
+		    </dependency>
+    
+#### Use jitpack
+[Jitpack](https://jitpack.io) allows the developer to import the dependency directly from github.
+
+1) Add the jitpack repository in your pom.xml file
+
+			<repositories>
+				<repository>
+					<id>jitpack.io</id>
+					<url>https://jitpack.io</url>
+				</repository>
+			</repositories>
+	
+2) Add the dependency:
+
+			<dependency>
+				<groupId>com.github.sirnino</groupId>
+				<artifactId>PropertyManager</artifactId>
+				<version>1.0.0</version>
+			</dependency>
 
 ### Best practices
 
