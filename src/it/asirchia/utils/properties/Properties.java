@@ -53,7 +53,7 @@ public class Properties {
 	 */
 	public static Optional<String> get(String key) {
 		
-		Optional<String> ret = Optional.ofNullable(System.getenv(key));
+		Optional<String> ret = fromEnv(key);
 		
 		if(!ret.isPresent()) {
 			ret = fromZookeper(key);
@@ -65,7 +65,7 @@ public class Properties {
 		
 		return ret;
 	}
-	
+		
 	private static CuratorFramework getZooClient() {
 		if(!zooClient.isPresent()) {
 			synchronized(CuratorFramework.class){
@@ -76,7 +76,11 @@ public class Properties {
 		return zooClient.get();
 	}
 	
-	private static Optional<String> fromZookeper(String key) {
+	protected static Optional<String> fromEnv(String key){
+		return Optional.ofNullable(System.getenv(key));
+	}
+	
+	protected static Optional<String> fromZookeper(String key) {
 		
 		Optional<String> ret = Optional.empty();
 		String path = String.format(pathPattern, envName ,key);
@@ -92,7 +96,7 @@ public class Properties {
 		return ret;
 	}
 	
-	private static Optional<String> fromFile(String key) {
+	protected static Optional<String> fromFile(String key) {
 		
 		Optional<String> ret = Optional.empty();
 		try {
