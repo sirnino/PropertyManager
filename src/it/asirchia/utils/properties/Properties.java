@@ -30,10 +30,13 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 public class Properties {
 	
 	//Zookeeper Stuff
+	private static final Boolean isZookeeperActive = 
+			Optional.ofNullable(System.getenv("zookeeper.active")).isPresent() ? Boolean.parseBoolean(System.getenv("zookeeper.active")) : false;
+
 	private static final String pathPattern = "/conf/%s/%s";
 	private static final RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-	private static String zookeeperConnectionString = System.getenv("zookeeper.host").concat(":").concat(System.getenv("zookeeper.port"));
-	private static String envName = System.getenv("env"); 
+	private static String zookeeperConnectionString = isZookeeperActive ? System.getenv("zookeeper.host").concat(":").concat(System.getenv("zookeeper.port")) : null;
+	private static String envName = System.getenv("env");
 	private static Optional<CuratorFramework> zooClient = Optional.empty();
 	
 	//Configuration file stuff
@@ -55,7 +58,7 @@ public class Properties {
 		
 		Optional<String> ret = fromEnv(key);
 		
-		if(!ret.isPresent()) {
+		if(!ret.isPresent() && isZookeeperActive) {
 			ret = fromZookeper(key);
 		}
 		
@@ -103,7 +106,7 @@ public class Properties {
 			return ret = Optional.ofNullable(RESOURCE_BUNDLE.getString(key));
 		} 
 		catch (MissingResourceException e) {
-			e.printStackTrace();
+			//No file or key exists
 		}
 		
 		return ret;
