@@ -36,7 +36,7 @@ The developer who wants to use the library has two choices:
 		    <dependency>
 			    <groupId>it.asirchia.utils</groupId>
 			    <artifactId>property-manager</artifactId>
-			    <version>1.0.0</version>
+			    <version>1.1.0</version>
 		    </dependency>
     
 #### Use jitpack

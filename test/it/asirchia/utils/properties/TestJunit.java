@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,6 +31,11 @@ import org.junit.jupiter.api.Test;
 class TestJunit {
 	
 	private static final String key = "user.name";
+	
+	@BeforeAll
+	void before() {
+		System.out.println("Active profile is "+Properties.get("activeprofile"));
+	}
 	
 	/**
 	 * Tests the configuration from file
