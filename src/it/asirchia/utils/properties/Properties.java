@@ -40,7 +40,7 @@ public class Properties {
 	private static Optional<CuratorFramework> zooClient = Optional.empty();
 	
 	//Configuration file stuff
-	private static final String BUNDLE_NAME = "configuration";
+	private static final String BUNDLE_NAME = "application";
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 	
 	/**
