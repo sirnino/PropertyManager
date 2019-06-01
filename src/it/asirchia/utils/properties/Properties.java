@@ -2,10 +2,10 @@ package it.asirchia.utils.properties;
 
 import java.util.Optional;
 
-import it.asirchia.utils.properties.clients.GetterFromZookeeper;
 import it.asirchia.utils.properties.getters.GetterFromEnvironment;
 import it.asirchia.utils.properties.getters.GetterFromEtcd;
 import it.asirchia.utils.properties.getters.GetterFromFile;
+import it.asirchia.utils.properties.getters.GetterFromZookeeper;
 import it.asirchia.utils.properties.getters.PropertyGetter;
 import it.asirchia.utils.properties.getters.RemotePropertyGetter;
 

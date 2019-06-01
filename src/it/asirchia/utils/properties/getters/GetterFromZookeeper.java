@@ -1,4 +1,4 @@
-package it.asirchia.utils.properties.clients;
+package it.asirchia.utils.properties.getters;
 
 import java.util.Optional;
 
@@ -6,8 +6,6 @@ import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-
-import it.asirchia.utils.properties.getters.RemotePropertyGetter;
 
 @SuppressWarnings("unchecked")
 public class GetterFromZookeeper implements RemotePropertyGetter{

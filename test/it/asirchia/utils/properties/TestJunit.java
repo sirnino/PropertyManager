@@ -10,10 +10,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import it.asirchia.utils.properties.clients.GetterFromZookeeper;
 import it.asirchia.utils.properties.getters.GetterFromEnvironment;
 import it.asirchia.utils.properties.getters.GetterFromEtcd;
 import it.asirchia.utils.properties.getters.GetterFromFile;
+import it.asirchia.utils.properties.getters.GetterFromZookeeper;
 
 /**
  *  TestJunit - to test the PropertyManager project
@@ -38,7 +38,7 @@ class TestJunit {
 	private static final String key = "user.name";
 	
 	@BeforeAll
-	void before() {
+	static void before() {
 		System.out.println("Active profile is "+Properties.get("activeprofile"));
 	}
 	
@@ -73,12 +73,15 @@ class TestJunit {
 	 */
 	@Test
 	void testFromZookeeper() {
-		Optional<String> opt = new GetterFromZookeeper().get(key);
-		assertTrue(opt.isPresent());
+		if(GetterFromZookeeper.isActive()) {
+			Optional<String> opt = new GetterFromZookeeper().get(key);
+			assertTrue(opt.isPresent());
+			
+			System.out.println("Found from zookeeper "+key+" = "+opt.get());
+			
+			assertTrue("UsernameFromZookeeper".equals(opt.get()));
+		}
 		
-		System.out.println("Found from zookeeper "+key+" = "+opt.get());
-		
-		assertTrue("UsernameFromZookeeper".equals(opt.get()));
 	}
 	
 	/**
@@ -86,12 +89,14 @@ class TestJunit {
 	 */
 	@Test
 	void testFromEtcd() {
-		Optional<String> opt = new GetterFromEtcd().get(key);
-		assertTrue(opt.isPresent());
-		
-		System.out.println("Found from zookeeper "+key+" = "+opt.get());
-		
-		assertTrue("UsernameFromZookeeper".equals(opt.get()));
+		if(GetterFromEtcd.isActive()) {
+			Optional<String> opt = new GetterFromEtcd().get(key);
+			assertTrue(opt.isPresent());
+			
+			System.out.println("Found from etcd "+key+" = "+opt.get());
+			
+			assertTrue("etcdusername".equals(opt.get()));
+		}
 	}
 
 }
