@@ -1,13 +1,13 @@
 package it.asirchia.utils.properties;
 
-import java.util.MissingResourceException;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
-import org.apache.curator.RetryPolicy;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.retry.ExponentialBackoffRetry;
+import it.asirchia.utils.properties.clients.GetterFromZookeeper;
+import it.asirchia.utils.properties.getters.GetterFromEnvironment;
+import it.asirchia.utils.properties.getters.GetterFromEtcd;
+import it.asirchia.utils.properties.getters.GetterFromFile;
+import it.asirchia.utils.properties.getters.PropertyGetter;
+import it.asirchia.utils.properties.getters.RemotePropertyGetter;
 
 /**
  *  Property Manager - to retrieve application configuration
@@ -29,20 +29,6 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
  */
 public class Properties {
 	
-	//Zookeeper Stuff
-	private static final Boolean isZookeeperActive = 
-			Optional.ofNullable(System.getenv("zookeeper.active")).isPresent() ? Boolean.parseBoolean(System.getenv("zookeeper.active")) : false;
-
-	private static final String pathPattern = "/conf/%s/%s";
-	private static final RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-	private static String zookeeperConnectionString = isZookeeperActive ? System.getenv("zookeeper.host").concat(":").concat(System.getenv("zookeeper.port")) : null;
-	private static String envName = System.getenv("env");
-	private static Optional<CuratorFramework> zooClient = Optional.empty();
-	
-	//Configuration file stuff
-	private static final String BUNDLE_NAME = "application";
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-	
 	/**
 	 * Retrieves the Property with the specified keyword.
 	 * First it searches the properties in the Environment Variables, 
@@ -54,62 +40,36 @@ public class Properties {
 	 * @see java.util.Optional
 	 * 
 	 */
+	
+	private static PropertyGetter envGetter = new GetterFromEnvironment();
+	private static PropertyGetter fileGetter = new GetterFromFile();
+	private static Optional<RemotePropertyGetter> remoteSource;
+	
+	private static void setupSource() {
+		
+		if(GetterFromZookeeper.isActive())
+			remoteSource = Optional.ofNullable(new GetterFromZookeeper());
+		else if(GetterFromEtcd.isActive())
+			remoteSource = Optional.ofNullable(new GetterFromEtcd());
+		
+	}
+	
 	public static Optional<String> get(String key) {
 		
-		Optional<String> ret = fromEnv(key);
+		if(remoteSource == null) {
+			setupSource();
+		}
 		
-		if(!ret.isPresent() && isZookeeperActive) {
-			ret = fromZookeper(key);
+		Optional<String> ret = envGetter.get(key);
+		
+		if(!ret.isPresent() && remoteSource.isPresent()) {
+			ret = remoteSource.get().get(key);
 		}
 		
 		if(!ret.isPresent()) {
-			ret = fromFile(key);
+			ret = fileGetter.get(key);
 		}
 		
 		return ret;
 	}
-		
-	private static CuratorFramework getZooClient() {
-		if(!zooClient.isPresent()) {
-			synchronized(CuratorFramework.class){
-				zooClient = Optional.ofNullable(CuratorFrameworkFactory.newClient(zookeeperConnectionString, retryPolicy));
-				zooClient.get().start();
-			}
-		}
-		return zooClient.get();
-	}
-	
-	protected static Optional<String> fromEnv(String key){
-		return Optional.ofNullable(System.getenv(key));
-	}
-	
-	protected static Optional<String> fromZookeper(String key) {
-		
-		Optional<String> ret = Optional.empty();
-		String path = String.format(pathPattern, envName ,key);
-		
-		try { 
-			byte[] data = getZooClient().getData().forPath(path);
-			ret = Optional.of(new String(data));
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return ret;
-	}
-	
-	protected static Optional<String> fromFile(String key) {
-		
-		Optional<String> ret = Optional.empty();
-		try {
-			return ret = Optional.ofNullable(RESOURCE_BUNDLE.getString(key));
-		} 
-		catch (MissingResourceException e) {
-			//No file or key exists
-		}
-		
-		return ret;
-	}
-	
 }

@@ -3,12 +3,17 @@
  */
 package it.asirchia.utils.properties;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import it.asirchia.utils.properties.clients.GetterFromZookeeper;
+import it.asirchia.utils.properties.getters.GetterFromEnvironment;
+import it.asirchia.utils.properties.getters.GetterFromEtcd;
+import it.asirchia.utils.properties.getters.GetterFromFile;
 
 /**
  *  TestJunit - to test the PropertyManager project
@@ -42,7 +47,7 @@ class TestJunit {
 	 */
 	@Test
 	void testFromFile() {
-		Optional<String> opt = Properties.fromFile(key);
+		Optional<String> opt = new GetterFromFile().get(key);
 		assertTrue(opt.isPresent());
 		
 		System.out.println("Found from file "+key+" = "+opt.get());
@@ -55,7 +60,7 @@ class TestJunit {
 	 */
 	@Test
 	void testFromEnv() {	
-		Optional<String> opt = Properties.fromEnv(key);
+		Optional<String> opt = new GetterFromEnvironment().get(key);
 		assertTrue(opt.isPresent());
 		
 		System.out.println("Found from environment "+key+" = "+opt.get());
@@ -68,7 +73,20 @@ class TestJunit {
 	 */
 	@Test
 	void testFromZookeeper() {
-		Optional<String> opt = Properties.fromZookeper(key);
+		Optional<String> opt = new GetterFromZookeeper().get(key);
+		assertTrue(opt.isPresent());
+		
+		System.out.println("Found from zookeeper "+key+" = "+opt.get());
+		
+		assertTrue("UsernameFromZookeeper".equals(opt.get()));
+	}
+	
+	/**
+	 * Tests the configuration from Zookeeper server
+	 */
+	@Test
+	void testFromEtcd() {
+		Optional<String> opt = new GetterFromEtcd().get(key);
 		assertTrue(opt.isPresent());
 		
 		System.out.println("Found from zookeeper "+key+" = "+opt.get());
