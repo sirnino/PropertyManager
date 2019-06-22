@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import it.asirchia.utils.properties.getters.GetterFromEnvironment;
@@ -37,10 +36,11 @@ class TestJunit {
 	
 	private static final String key = "user.name";
 	
-	@BeforeAll
-	static void before() {
-		System.out.println("Active profile is "+Properties.get("activeprofile"));
-	}
+	private static final String expectedFileString = "UsernameFromConfigurationFile";
+	private static final String expectedEnvString = "UsernameFromEnvironment";
+	private static final String expectedZookeeperString = "UsernameFromZookeeper";
+	private static final String expectedEtcdString = "etcdusername";
+	
 	
 	/**
 	 * Tests the configuration from file
@@ -52,7 +52,7 @@ class TestJunit {
 		
 		System.out.println("Found from file "+key+" = "+opt.get());
 		
-		assertTrue("UsernameFromConfigurationFile".equals(opt.get()));
+		assertTrue(expectedFileString.equals(opt.get()));
 	}
 	
 	/**
@@ -65,7 +65,7 @@ class TestJunit {
 		
 		System.out.println("Found from environment "+key+" = "+opt.get());
 		
-		assertTrue("UsernameFromEnvironment".equals(opt.get()));
+		assertTrue(expectedEnvString.equals(opt.get()));
 	}
 	
 	/**
@@ -79,7 +79,7 @@ class TestJunit {
 			
 			System.out.println("Found from zookeeper "+key+" = "+opt.get());
 			
-			assertTrue("UsernameFromZookeeper".equals(opt.get()));
+			assertTrue(expectedZookeeperString.equals(opt.get()));
 		}
 		
 	}
@@ -95,7 +95,7 @@ class TestJunit {
 			
 			System.out.println("Found from etcd "+key+" = "+opt.get());
 			
-			assertTrue("etcdusername".equals(opt.get()));
+			assertTrue(expectedEtcdString.equals(opt.get()));
 		}
 	}
 

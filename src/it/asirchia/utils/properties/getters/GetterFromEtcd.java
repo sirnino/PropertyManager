@@ -56,7 +56,7 @@ public class GetterFromEtcd implements RemotePropertyGetter{
 			}
 		}
 		catch(Exception e) {
-			//No file or key exists
+			e.printStackTrace();
 		}
 		
 		return out; 
