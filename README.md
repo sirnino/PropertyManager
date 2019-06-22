@@ -6,7 +6,7 @@ This Microservices oriented Java library is intended to robustly retrieve applic
 
 The retrieval is performed accordingly to the following priority list:
 1. Environment variables
-2. Zookeeper Configuration Manager
+2. Zookeeper/Etcd Configuration Server
 3. Configuration file
 
 
@@ -35,7 +35,7 @@ The developer who wants to use the library has two choices:
 		    <dependency>
 			    <groupId>it.asirchia.utils</groupId>
 			    <artifactId>property-manager</artifactId>
-			    <version>1.1.0</version>
+			    <version>1.3.0</version>
 		    </dependency>
     
 #### Use jitpack
@@ -55,7 +55,7 @@ The developer who wants to use the library has two choices:
 			<dependency>
 				<groupId>com.github.sirnino</groupId>
 				<artifactId>PropertyManager</artifactId>
-				<version>1.0.0</version>
+				<version>1.3.0</version>
 			</dependency>
 
 Be sure to set the following environmental variables in the project that includes the library:
