@@ -9,9 +9,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 
 @SuppressWarnings("unchecked")
 public class GetterFromZookeeper implements RemotePropertyGetter{
-	
-	private static String envName = System.getenv("env");
-	
+		
 	private static final Boolean active = 
 			Optional.ofNullable(System.getenv("zookeeper.active")).isPresent() ? Boolean.parseBoolean(System.getenv("zookeeper.active")) : false;
 	
@@ -20,7 +18,7 @@ public class GetterFromZookeeper implements RemotePropertyGetter{
 			
 	private Optional<CuratorFramework> client = Optional.empty();
 	
-	private static final String pathPattern = "/conf/%s/%s";
+	private static final String pathPattern = "/conf/%s";
 	
 	private static final RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
 
@@ -41,7 +39,7 @@ public class GetterFromZookeeper implements RemotePropertyGetter{
 	public Optional<String> get(String key) {
 		
 		Optional<String> ret = Optional.empty();
-		String path = String.format(pathPattern, envName ,key);
+		String path = String.format(pathPattern, key);
 		
 		try { 
 			byte[] data = buildClient().getData().forPath(path);
