@@ -72,4 +72,16 @@ public class Properties {
 		
 		return ret;
 	}
+	
+	protected static void setEnvGetter(PropertyGetter getter) {
+		Properties.envGetter = getter;
+	}
+	
+	protected static void setFileGetter(PropertyGetter getter) {
+		Properties.fileGetter = getter;
+	}
+	
+	protected static void setRemoteGetter(RemotePropertyGetter getter) {
+		Properties.remoteSource = Optional.ofNullable(getter);
+	}
 }
