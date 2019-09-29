@@ -12,7 +12,3 @@ Welcome to PropertyManager's documentation!
 
    usage/installation
    usage/quickstart
-
-
-Indices and tables
-==================
