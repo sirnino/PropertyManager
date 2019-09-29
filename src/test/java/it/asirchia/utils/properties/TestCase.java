@@ -19,6 +19,7 @@ import it.asirchia.utils.properties.getters.GetterFromEnvironment;
 import it.asirchia.utils.properties.getters.GetterFromEtcd;
 import it.asirchia.utils.properties.getters.GetterFromFile;
 import it.asirchia.utils.properties.getters.GetterFromZookeeper;
+import it.asirchia.utils.properties.getters.RemotePropertyGetter;
 
 /**
  *  TestJunit - to test the PropertyManager project
@@ -50,28 +51,49 @@ class TestCase {
 	private static final String expectedZookeeperString = "UsernameFromZookeeper";
 	private static final String expectedEtcdString = "etcdusername";
 	
-	@Test
-	void testFromFile() {
-		
-		LOG.info("Running " + new Throwable().getStackTrace()[0].getMethodName());
-		
+	private void initMocks(String fileValue, String envValue, Class<? extends RemotePropertyGetter> remoteGetter, String remoteValue) {
 		
 		LOG.debug("Mocking file data");
 		//The configuration file contains a default value for "key"
 		GetterFromFile getterFromFile = mock(GetterFromFile.class, RETURNS_DEEP_STUBS);
-		when(getterFromFile.get(key)).thenReturn(Optional.ofNullable(expectedFileString));
+		when(getterFromFile.get(key)).thenReturn(Optional.ofNullable(fileValue));
 		
 		LOG.debug("Mocking environmental data");
 		//No environmental variable for "key" is defined
 		GetterFromEnvironment getterFromEnvironment = mock(GetterFromEnvironment.class, RETURNS_DEEP_STUBS);
-		when(getterFromEnvironment.get(key)).thenReturn(Optional.ofNullable(null));
+		when(getterFromEnvironment.get(key)).thenReturn(Optional.ofNullable(envValue));
 		
-		LOG.debug("Mocking zookeeper data");
-		//Zookeeper doesn't contain any data for "key"
-		GetterFromZookeeper getterFromZookeeper = mock(GetterFromZookeeper.class, RETURNS_DEEP_STUBS);
-		when(getterFromZookeeper.get(key)).thenReturn(Optional.ofNullable(null));
+		LOG.debug("Mocking remote ["+remoteGetter.getSimpleName()+"] data");
+		RemotePropertyGetter remoteGetterInstance = mock(remoteGetter, RETURNS_DEEP_STUBS);
+		when(remoteGetterInstance.get(key)).thenReturn(Optional.ofNullable(remoteValue));
 		
-		PropertiesConfig.build(getterFromFile, getterFromEnvironment, getterFromZookeeper);
+		PropertiesConfig.build(getterFromFile, getterFromEnvironment, remoteGetterInstance);
+	}
+	
+	@Test
+	void testFromFile_Zookeeper() {
+		
+		LOG.info("Running " + new Throwable().getStackTrace()[0].getMethodName());
+		
+		initMocks(expectedFileString, null, GetterFromZookeeper.class, null);
+		
+		LOG.debug("Executing test");
+		Optional<String> opt = Properties.get(key);
+		
+		//The Properties should be the zookeeper's one
+		assertTrue(opt.isPresent());
+		assertTrue(expectedFileString.equals(opt.get()));
+		
+		LOG.info("Test OK");
+		
+	}
+	
+	@Test
+	void testFromFile_Etcd() {
+		
+		LOG.info("Running " + new Throwable().getStackTrace()[0].getMethodName());
+		
+		initMocks(expectedFileString, null, GetterFromEtcd.class, null);
 		
 		LOG.debug("Executing test");
 		Optional<String> opt = Properties.get(key);
@@ -89,23 +111,7 @@ class TestCase {
 		
 		LOG.info("Running " + new Throwable().getStackTrace()[0].getMethodName());
 		
-		
-		LOG.debug("Mocking file data");
-		//The configuration file contains a default value for "key"
-		GetterFromFile getterFromFile = mock(GetterFromFile.class, RETURNS_DEEP_STUBS);
-		when(getterFromFile.get(key)).thenReturn(Optional.ofNullable(expectedFileString));
-		
-		LOG.debug("Mocking environmental data");
-		//No environmental variable for "key" is defined
-		GetterFromEnvironment getterFromEnvironment = mock(GetterFromEnvironment.class, RETURNS_DEEP_STUBS);
-		when(getterFromEnvironment.get(key)).thenReturn(Optional.ofNullable(null));
-		
-		LOG.debug("Mocking zookeeper data");
-		//Zookeeper contains data for "key"
-		GetterFromZookeeper getterFromZookeeper = mock(GetterFromZookeeper.class, RETURNS_DEEP_STUBS);
-		when(getterFromZookeeper.get(key)).thenReturn(Optional.ofNullable(expectedZookeeperString));
-		
-		PropertiesConfig.build(getterFromFile, getterFromEnvironment, getterFromZookeeper);
+		initMocks(expectedFileString, null, GetterFromZookeeper.class, expectedZookeeperString);
 		
 		LOG.debug("Executing test");
 		Optional<String> opt = Properties.get(key);
@@ -123,23 +129,7 @@ class TestCase {
 		
 		LOG.info("Running " + new Throwable().getStackTrace()[0].getMethodName());
 		
-		
-		LOG.debug("Mocking file data");
-		//The configuration file contains a default value for "key"
-		GetterFromFile getterFromFile = mock(GetterFromFile.class, RETURNS_DEEP_STUBS);
-		when(getterFromFile.get(key)).thenReturn(Optional.ofNullable(expectedFileString));
-		
-		LOG.debug("Mocking environmental data");
-		//No environmental variable for "key" is defined
-		GetterFromEnvironment getterFromEnvironment = mock(GetterFromEnvironment.class, RETURNS_DEEP_STUBS);
-		when(getterFromEnvironment.get(key)).thenReturn(Optional.ofNullable(null));
-		
-		LOG.debug("Mocking Etcd data");
-		//Etcd contains data for "key"
-		GetterFromEtcd getterFromEtcd = mock(GetterFromEtcd.class, RETURNS_DEEP_STUBS);
-		when(getterFromEtcd.get(key)).thenReturn(Optional.ofNullable(expectedEtcdString));
-		
-		PropertiesConfig.build(getterFromFile, getterFromEnvironment, getterFromEtcd);
+		initMocks(expectedFileString, null, GetterFromEtcd.class, expectedEtcdString);
 		
 		LOG.debug("Executing test");
 		Optional<String> opt = Properties.get(key);
@@ -154,27 +144,11 @@ class TestCase {
 	
 	
 	@Test
-	void testFromEnvironment() {
+	void testFromEnvironment_emptyZookeeper() {
 		
 		LOG.info("Running " + new Throwable().getStackTrace()[0].getMethodName());
 		
-		
-		LOG.debug("Mocking file data");
-		//The configuration file contains a default value for "key"
-		GetterFromFile getterFromFile = mock(GetterFromFile.class, RETURNS_DEEP_STUBS);
-		when(getterFromFile.get(key)).thenReturn(Optional.ofNullable(expectedFileString));
-		
-		LOG.debug("Mocking environmental data");
-		//The environmental variable "key" is defined
-		GetterFromEnvironment getterFromEnvironment = mock(GetterFromEnvironment.class, RETURNS_DEEP_STUBS);
-		when(getterFromEnvironment.get(key)).thenReturn(Optional.ofNullable(expectedEnvString));
-		
-		LOG.debug("Mocking zookeeper data");
-		//Zookeeper contains data for "key"
-		GetterFromZookeeper getterFromZookeeper = mock(GetterFromZookeeper.class, RETURNS_DEEP_STUBS);
-		when(getterFromZookeeper.get(key)).thenReturn(Optional.ofNullable(expectedZookeeperString));
-		
-		PropertiesConfig.build(getterFromFile, getterFromEnvironment, getterFromZookeeper);
+		initMocks(expectedFileString, expectedEnvString, GetterFromZookeeper.class, null);
 		
 		LOG.debug("Executing test");
 		Optional<String> opt = Properties.get(key);
@@ -182,6 +156,94 @@ class TestCase {
 		//The Properties should be the environment's one
 		assertTrue(opt.isPresent());
 		assertTrue(expectedEnvString.equals(opt.get()));
+		
+		LOG.info("Test OK");
+		
+	}
+	
+	@Test
+	void testFromEnvironment_emptyEtcd() {
+		
+		LOG.info("Running " + new Throwable().getStackTrace()[0].getMethodName());
+		
+		initMocks(expectedFileString, expectedEnvString, GetterFromEtcd.class, null);
+		
+		LOG.debug("Executing test");
+		Optional<String> opt = Properties.get(key);
+		
+		//The Properties should be the environment's one
+		assertTrue(opt.isPresent());
+		assertTrue(expectedEnvString.equals(opt.get()));
+		
+		LOG.info("Test OK");
+		
+	}
+	
+	@Test
+	void testFromEnvironment_Zookeeper() {
+		
+		LOG.info("Running " + new Throwable().getStackTrace()[0].getMethodName());
+		
+		initMocks(expectedFileString, expectedEnvString, GetterFromZookeeper.class, expectedZookeeperString);
+		
+		LOG.debug("Executing test");
+		Optional<String> opt = Properties.get(key);
+		
+		//The Properties should be the environment's one
+		assertTrue(opt.isPresent());
+		assertTrue(expectedEnvString.equals(opt.get()));
+		
+		LOG.info("Test OK");
+		
+	}
+	
+	@Test
+	void testFromEnvironment_Etcd() {
+		
+		LOG.info("Running " + new Throwable().getStackTrace()[0].getMethodName());
+		
+		initMocks(expectedFileString, expectedEnvString, GetterFromEtcd.class, expectedEtcdString);
+		
+		LOG.debug("Executing test");
+		Optional<String> opt = Properties.get(key);
+		
+		//The Properties should be the environment's one
+		assertTrue(opt.isPresent());
+		assertTrue(expectedEnvString.equals(opt.get()));
+		
+		LOG.info("Test OK");
+		
+	}
+	
+	@Test
+	void testEmpty_Etcd() {
+		
+		LOG.info("Running " + new Throwable().getStackTrace()[0].getMethodName());
+		
+		initMocks(null, null, GetterFromEtcd.class, null);
+		
+		LOG.debug("Executing test");
+		Optional<String> opt = Properties.get(key);
+		
+		//The Properties should be the empty
+		assertTrue(!opt.isPresent());
+		
+		LOG.info("Test OK");
+		
+	}
+	
+	@Test
+	void testEmpty_Zookeeper() {
+		
+		LOG.info("Running " + new Throwable().getStackTrace()[0].getMethodName());
+		
+		initMocks(null, null, GetterFromZookeeper.class, null);
+		
+		LOG.debug("Executing test");
+		Optional<String> opt = Properties.get(key);
+		
+		//The Properties should be the empty
+		assertTrue(!opt.isPresent());
 		
 		LOG.info("Test OK");
 		
