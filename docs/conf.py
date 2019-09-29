@@ -143,7 +143,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'PropertyManager.tex', 'PropertyManager Documentation',
-     'Antonino', 'manual'),
+     'Antonino Sirchia', 'manual'),
 ]
 
 

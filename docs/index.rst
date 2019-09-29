@@ -10,11 +10,9 @@ Welcome to PropertyManager's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   usage/installation
+   usage/quickstart
 
 
 Indices and tables
 ==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
