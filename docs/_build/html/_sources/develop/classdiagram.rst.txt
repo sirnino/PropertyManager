@@ -1,6 +1,6 @@
-.. _usersinstallation:
+.. _classdiagram:
 
-Installation
+Class Diagram
 ==================
 
 

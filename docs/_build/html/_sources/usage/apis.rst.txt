@@ -1,6 +1,6 @@
-.. _usersinstallation:
+.. _usersapis:
 
-Installation
+APIs
 ==================
 
 

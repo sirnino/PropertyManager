@@ -1,4 +1,6 @@
-Users guide
+.. _userscenarios:
+
+Scenarios
 ==================
 
 

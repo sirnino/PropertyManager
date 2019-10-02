@@ -1,4 +1,6 @@
-Developers guide
+.. _userscenarios:
+
+Scenarios
 ==================
 
 

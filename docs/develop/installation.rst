@@ -1,4 +1,4 @@
-.. _usersinstallation:
+.. _developersinstallation:
 
 Installation
 ==================
