@@ -1,7 +1,0 @@
-.. _usersguide:
-
-Users guide
-==================
-
-
-The content here...

@@ -1,7 +1,0 @@
-.. _developersguide:
-
-Developers guide
-==================
-
-
-The content here...
