@@ -1,4 +1,4 @@
-package it.asirchia.utils.properties.getters;
+package io.github.sirnino.utils.properties.getters;
 
 import java.util.MissingResourceException;
 import java.util.Optional;

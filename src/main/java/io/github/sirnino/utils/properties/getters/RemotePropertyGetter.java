@@ -1,4 +1,4 @@
-package it.asirchia.utils.properties.getters;
+package io.github.sirnino.utils.properties.getters;
 
 public interface RemotePropertyGetter extends PropertyGetter {
 

@@ -13,13 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
+import io.github.sirnino.utils.properties.Properties;
+import io.github.sirnino.utils.properties.getters.GetterFromEnvironment;
+import io.github.sirnino.utils.properties.getters.GetterFromEtcd;
+import io.github.sirnino.utils.properties.getters.GetterFromFile;
+import io.github.sirnino.utils.properties.getters.GetterFromZookeeper;
+import io.github.sirnino.utils.properties.getters.RemotePropertyGetter;
 
-import it.asirchia.utils.properties.getters.GetterFromEnvironment;
-import it.asirchia.utils.properties.getters.GetterFromEtcd;
-import it.asirchia.utils.properties.getters.GetterFromFile;
-import it.asirchia.utils.properties.getters.GetterFromZookeeper;
-import it.asirchia.utils.properties.getters.RemotePropertyGetter;
+import java.util.Optional;
 
 /**
  *  TestJunit - to test the PropertyManager project
@@ -67,7 +68,7 @@ class TestCase {
 		RemotePropertyGetter remoteGetterInstance = mock(remoteGetter, RETURNS_DEEP_STUBS);
 		when(remoteGetterInstance.get(key)).thenReturn(Optional.ofNullable(remoteValue));
 		
-		PropertiesConfig.build(getterFromFile, getterFromEnvironment, remoteGetterInstance);
+		Properties.configure(getterFromFile, getterFromEnvironment, remoteGetterInstance);
 	}
 	
 	@Test

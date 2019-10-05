@@ -10,7 +10,7 @@ All the contributions, must be done accordingly to the guideline described in th
 The guide is built by the following sections:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    installation
    classdiagram

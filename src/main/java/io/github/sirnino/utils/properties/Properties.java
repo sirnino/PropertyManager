@@ -1,13 +1,13 @@
-package it.asirchia.utils.properties;
+package io.github.sirnino.utils.properties;
 
 import java.util.Optional;
 
-import it.asirchia.utils.properties.getters.GetterFromEnvironment;
-import it.asirchia.utils.properties.getters.GetterFromEtcd;
-import it.asirchia.utils.properties.getters.GetterFromFile;
-import it.asirchia.utils.properties.getters.GetterFromZookeeper;
-import it.asirchia.utils.properties.getters.PropertyGetter;
-import it.asirchia.utils.properties.getters.RemotePropertyGetter;
+import io.github.sirnino.utils.properties.getters.GetterFromEnvironment;
+import io.github.sirnino.utils.properties.getters.GetterFromEtcd;
+import io.github.sirnino.utils.properties.getters.GetterFromFile;
+import io.github.sirnino.utils.properties.getters.GetterFromZookeeper;
+import io.github.sirnino.utils.properties.getters.PropertyGetter;
+import io.github.sirnino.utils.properties.getters.RemotePropertyGetter;
 
 /**
  *  Property Manager - to retrieve application configuration
@@ -45,19 +45,31 @@ public class Properties {
 	private static PropertyGetter fileGetter = new GetterFromFile();
 	private static Optional<RemotePropertyGetter> remoteSource;
 	
-	private static void setupSource() {
-		
-		if(GetterFromZookeeper.isActive())
-			remoteSource = Optional.ofNullable(new GetterFromZookeeper());
-		else if(GetterFromEtcd.isActive())
-			remoteSource = Optional.ofNullable(new GetterFromEtcd());
-		
+	private static void setEnvGetter(PropertyGetter getter) {
+		Properties.envGetter = getter;
+	}
+	
+	private static void setFileGetter(PropertyGetter getter) {
+		Properties.fileGetter = getter;
+	}
+	
+	private static void setRemoteGetter(RemotePropertyGetter getter) {
+		Properties.remoteSource = Optional.ofNullable(getter);
+	}
+	
+	public static void configure(PropertyGetter fileGetter, PropertyGetter envGetter, RemotePropertyGetter remoteGetter) {
+		Properties.setFileGetter(fileGetter);
+		Properties.setEnvGetter(envGetter);
+		Properties.setRemoteGetter(remoteGetter);
 	}
 	
 	public static Optional<String> get(String key) {
 		
 		if(remoteSource == null) {
-			setupSource();
+			if(GetterFromZookeeper.isActive())
+				remoteSource = Optional.ofNullable(new GetterFromZookeeper());
+			else if(GetterFromEtcd.isActive())
+				remoteSource = Optional.ofNullable(new GetterFromEtcd());
 		}
 		
 		Optional<String> ret = envGetter.get(key);
@@ -73,15 +85,4 @@ public class Properties {
 		return ret;
 	}
 	
-	protected static void setEnvGetter(PropertyGetter getter) {
-		Properties.envGetter = getter;
-	}
-	
-	protected static void setFileGetter(PropertyGetter getter) {
-		Properties.fileGetter = getter;
-	}
-	
-	protected static void setRemoteGetter(RemotePropertyGetter getter) {
-		Properties.remoteSource = Optional.ofNullable(getter);
-	}
 }

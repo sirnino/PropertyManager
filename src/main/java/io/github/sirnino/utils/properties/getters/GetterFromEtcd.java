@@ -1,4 +1,4 @@
-package it.asirchia.utils.properties.getters;
+package io.github.sirnino.utils.properties.getters;
 
 import java.nio.charset.Charset;
 import java.util.List;
