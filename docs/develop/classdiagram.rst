@@ -13,4 +13,6 @@ The project is composed by two packages:
 .. image:: ../_static/class_diagrams.png
 
 
+
+
 PropertyManager is packaged through `Maven <https://maven.apache.org/>`_.
