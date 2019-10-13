@@ -1,4 +1,4 @@
-package io.github.sirnino.utils.properties.getters;
+package io.github.sirnino.utils.properties.getters.impl;
 
 import java.util.Optional;
 
@@ -6,6 +6,8 @@ import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+
+import io.github.sirnino.utils.properties.getters.RemotePropertyGetter;
 
 @SuppressWarnings("unchecked")
 public class GetterFromZookeeper implements RemotePropertyGetter{

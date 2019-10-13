@@ -1,4 +1,4 @@
-package io.github.sirnino.utils.properties.getters;
+package io.github.sirnino.utils.properties.getters.impl;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -11,6 +11,7 @@ import io.etcd.jetcd.Client;
 import io.etcd.jetcd.KV;
 import io.etcd.jetcd.KeyValue;
 import io.etcd.jetcd.kv.GetResponse;
+import io.github.sirnino.utils.properties.getters.RemotePropertyGetter;
 
 @SuppressWarnings("unchecked")
 public class GetterFromEtcd implements RemotePropertyGetter{

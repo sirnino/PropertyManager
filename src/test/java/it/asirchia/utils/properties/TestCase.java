@@ -14,11 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.sirnino.utils.properties.Properties;
-import io.github.sirnino.utils.properties.getters.GetterFromEnvironment;
-import io.github.sirnino.utils.properties.getters.GetterFromEtcd;
-import io.github.sirnino.utils.properties.getters.GetterFromFile;
-import io.github.sirnino.utils.properties.getters.GetterFromZookeeper;
 import io.github.sirnino.utils.properties.getters.RemotePropertyGetter;
+import io.github.sirnino.utils.properties.getters.impl.GetterFromEnvironment;
+import io.github.sirnino.utils.properties.getters.impl.GetterFromEtcd;
+import io.github.sirnino.utils.properties.getters.impl.GetterFromFile;
+import io.github.sirnino.utils.properties.getters.impl.GetterFromZookeeper;
 
 import java.util.Optional;
 

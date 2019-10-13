@@ -1,6 +1,8 @@
-package io.github.sirnino.utils.properties.getters;
+package io.github.sirnino.utils.properties.getters.impl;
 
 import java.util.Optional;
+
+import io.github.sirnino.utils.properties.getters.PropertyGetter;
 
 public class GetterFromEnvironment implements PropertyGetter {
 

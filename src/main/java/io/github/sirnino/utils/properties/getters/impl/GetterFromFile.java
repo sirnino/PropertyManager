@@ -1,8 +1,10 @@
-package io.github.sirnino.utils.properties.getters;
+package io.github.sirnino.utils.properties.getters.impl;
 
 import java.util.MissingResourceException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import io.github.sirnino.utils.properties.getters.PropertyGetter;
 
 public class GetterFromFile implements PropertyGetter {
 
