@@ -2,6 +2,8 @@
 
 # PropertyManager
 
+[![Documentation Status](https://readthedocs.org/projects/propertymanager/badge/?version=latest)](https://propertymanager.readthedocs.io/en/latest/?badge=latest)
+
 This Microservices oriented Java library is intended to robustly retrieve application properties in your application.
 
 The retrieval is performed accordingly to the following priority list:
@@ -9,6 +11,7 @@ The retrieval is performed accordingly to the following priority list:
 2. Zookeeper/Etcd Configuration Server
 3. Configuration file
 
+Read more on [ReadTheDocs](https://propertymanager.readthedocs.io).
 
 ## Getting Started
 
