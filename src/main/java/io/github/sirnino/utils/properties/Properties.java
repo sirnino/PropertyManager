@@ -58,9 +58,14 @@ public class Properties {
 	}
 	
 	public static void configure(PropertyGetter fileGetter, PropertyGetter envGetter, RemotePropertyGetter remoteGetter) {
-		Properties.setFileGetter(fileGetter);
-		Properties.setEnvGetter(envGetter);
-		Properties.setRemoteGetter(remoteGetter);
+		if(fileGetter != null)
+			Properties.setFileGetter(fileGetter);
+		
+		if(envGetter != null)
+			Properties.setEnvGetter(envGetter);
+		
+		if(remoteGetter != null)
+			Properties.setRemoteGetter(remoteGetter);
 	}
 	
 	public static Optional<String> get(String key) {
