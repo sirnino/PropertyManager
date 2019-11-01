@@ -61,9 +61,7 @@ The developer who wants to use the library has two choices:
 				<version>1.3.0</version>
 			</dependency>
 
-Be sure to set the following environmental variables in the project that includes the library:
-Be sure to launch it with the following environmental variables:
-* **env:** *test | prod*
+Be sure to set the following environmental variables in the project that includes the library.
 
 If you have a running instance of Etcd:
 * **etcd.active:** *true*

@@ -9,5 +9,6 @@ Users guide
    :maxdepth: 2
 
    installation
+   configuration
    apis
    scenarios
