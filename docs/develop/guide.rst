@@ -14,3 +14,4 @@ The guide is built by the following sections:
 
    installation
    classdiagram
+   developremote
