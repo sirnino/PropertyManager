@@ -23,18 +23,16 @@ The returned value is a :code:`java.util.Optional` over which it's a good practi
 Advanced usage
 --------------
 
-PropertyManager provides also a configuration method that allows to inject external dependencies, like other :code:`RemotePropertyGetter`.
+PropertyManager provides also a builder that allows to inject external dependencies, like other :code:`RemotePropertyGetter`.
 
-The method is
-
-.. code-block:: java
-	
-	public static void configure(PropertyGetter fileGetter, PropertyGetter envGetter, RemotePropertyGetter remoteGetter);
-
-that can be used as follows
+The class is :code:`PropertiesBuilder` that can be used as follows:
 
 .. code-block:: java
 	
-	Properties.configure(myFileGetter, myEnvGetter, myRemoteGetter);
+	PropertiesBuilder.getInstance()
+			 .hasFileGetter(getterFromFile)
+			 .hasEnvGetter(getterFromEnvironment)
+			 .hasRemoteGetter(remoteGetterInstance)
+			 .configure();
 
 Such a method can be used to configure **the entire PropertyManager instance**.

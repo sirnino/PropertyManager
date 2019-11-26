@@ -5,10 +5,11 @@ Class Diagram
 
 The *src/main* folder contains the source code of PropertyManager.
 
-The project is composed by two packages: 
+The project is composed by the following packages: 
 
 - io.github.sirnino.utils.properties
 - io.github.sirnino.utils.properties.getters
+- io.github.sirnino.utils.properties.getters.impl
 
 .. image:: ../_static/class_diagrams.png
 

@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.sirnino.utils.properties.Properties;
+import io.github.sirnino.utils.properties.PropertiesBuilder;
 import io.github.sirnino.utils.properties.getters.RemotePropertyGetter;
 import io.github.sirnino.utils.properties.getters.impl.GetterFromEnvironment;
 import io.github.sirnino.utils.properties.getters.impl.GetterFromEtcd;
@@ -68,7 +69,11 @@ class TestCase {
 		RemotePropertyGetter remoteGetterInstance = mock(remoteGetter, RETURNS_DEEP_STUBS);
 		when(remoteGetterInstance.get(key)).thenReturn(Optional.ofNullable(remoteValue));
 		
-		Properties.configure(getterFromFile, getterFromEnvironment, remoteGetterInstance);
+		PropertiesBuilder.getInstance()
+							.hasFileGetter(getterFromFile)
+							.hasEnvGetter(getterFromEnvironment)
+							.hasRemoteGetter(remoteGetterInstance)
+							.configure();
 	}
 	
 	@Test
@@ -249,6 +254,5 @@ class TestCase {
 		LOG.info("Test OK");
 		
 	}
-
-
+	
 }

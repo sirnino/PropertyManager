@@ -57,7 +57,7 @@ public class Properties {
 		Properties.remoteSource = Optional.ofNullable(getter);
 	}
 	
-	public static void configure(PropertyGetter fileGetter, PropertyGetter envGetter, RemotePropertyGetter remoteGetter) {
+	static void configure(PropertyGetter fileGetter, PropertyGetter envGetter, RemotePropertyGetter remoteGetter) {
 		if(fileGetter != null)
 			Properties.setFileGetter(fileGetter);
 		
