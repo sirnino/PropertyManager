@@ -3,6 +3,7 @@
 # PropertyManager
 
 [![Documentation Status](https://readthedocs.org/projects/propertymanager/badge/?version=latest)](https://propertymanager.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.org/sirnino/PropertyManager.svg?branch=master)](https://travis-ci.org/sirnino/PropertyManager)
 
 This Microservices oriented Java library is intended to robustly retrieve application properties in your application.
 
