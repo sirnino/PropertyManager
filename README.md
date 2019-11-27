@@ -2,9 +2,12 @@
 
 # PropertyManager
 
-[![Documentation Status](https://readthedocs.org/projects/propertymanager/badge/?version=latest)](https://propertymanager.readthedocs.io/en/latest/?badge=latest)
+![GitHub release](https://img.shields.io/github/v/release/sirnino/PropertyManager?style=for-the-badge)
+![Travis (.org)](https://img.shields.io/travis/sirnino/PropertyManager?style=for-the-badge)
 ![Codecov branch](https://img.shields.io/codecov/c/github/sirnino/PropertyManager/master?label=Code%20Coverage&style=for-the-badge)
-[![Build Status](https://travis-ci.org/sirnino/PropertyManager.svg?branch=master)](https://travis-ci.org/sirnino/PropertyManager)
+![Documentation Status](https://readthedocs.org/projects/propertymanager/badge/?style=for-the-badge&version=latest)
+![LICENSE](https://img.shields.io/github/license/sirnino/PropertyManager?style=for-the-badge)
+
 
 This Microservices oriented Java library is intended to robustly retrieve application properties in your application.
 
