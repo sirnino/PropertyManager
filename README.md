@@ -1,6 +1,6 @@
-
-
 # PropertyManager
+
+## ⚠ This repository has been archived and is no longer mantained
 
 ![GitHub release](https://img.shields.io/github/v/release/sirnino/PropertyManager?style=for-the-badge)
 ![Travis (.org)](https://img.shields.io/travis/sirnino/PropertyManager?style=for-the-badge)
